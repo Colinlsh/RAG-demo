@@ -118,7 +118,7 @@ except Exception as e:
     st.error(f"Failed to load CrossEncoder model: {str(e)}")
 
 # Streamlit page config and CSS
-st.set_page_config(page_title="DeepGraph RAG-Pro", layout="wide")
+st.set_page_config(page_title="Colin RAG-Pro", layout="wide")
 st.markdown("""
     <style>
         .stApp { background-color: #f4f4f9; }
