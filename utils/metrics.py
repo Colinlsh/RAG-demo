@@ -1,14 +1,11 @@
-from datetime import datetime
 from typing import List
 from langchain_core.documents import Document
-import pandas as pd
 from sentence_transformers import CrossEncoder
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.metrics.pairwise import cosine_similarity
 import torch
 
 from utils.embeddings import OpenAIEmbedder
-import plotly.express as px
 
 def calculate_precision_at_k(retrieved_docs: List[Document], relevant_docs: List[str], k: int) -> float:
     """

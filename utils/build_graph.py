@@ -1,11 +1,7 @@
 from collections import defaultdict
 from typing import Dict, List, Tuple
-import numpy as np
-import streamlit as st
 import networkx as nx
-import re
 import spacy
-from torch import cosine_similarity, tensor
 import torch
 from langchain.docstore.document import Document
 
@@ -13,54 +9,6 @@ from utils.embeddings import OpenAIEmbedder
 
 nlp = spacy.load("en_core_web_sm", exclude=["parser", "lemmatizer", "tagger"])  # Disable unused components
 nlp.add_pipe("sentencizer")
-
-# def build_knowledge_graph(docs, embedding_model: OpenAIEmbedder):
-#     G = nx.Graph()
-#     device = "mps" if torch.backends.mps.is_available() else "cpu"
-#     id_to_doc = {}  # Map document IDs to their metadata
-    
-#     for doc in docs:
-#         # Create a document node with all metadata
-#         doc_id = f"doc_{doc.metadata['source_idx']}"
-#         G.add_node(doc_id, 
-#                   type="document",
-#                   **doc.metadata)  # Includes source_file and source_idx
-        
-#         # Store document reference
-#         id_to_doc[doc_id] = doc
-        
-#         # Process content and extract entities
-#         doc_content = nlp(doc.page_content)
-#         entities = [ent.text for ent in doc_content.ents]
-        
-#         # Add entity nodes and document-entity relationships
-#         for entity in entities:
-#             if entity not in G.nodes:
-#                 G.add_node(entity, 
-#                           type="entity",
-#                           embedding=embedding_model.embed_documents([entity])[0])
-            
-#             # Add relationship between document and entity
-#             G.add_edge(doc_id, entity, 
-#                       weight=1.0,
-#                       occurrences=entities.count(entity))
-        
-#         # Add entity-entity relationships within the same document
-#         for i in range(len(entities)):
-#             for j in range(i+1, len(entities)):
-#                 ent1, ent2 = entities[i], entities[j]
-#                 if G.has_edge(ent1, ent2):
-#                     # Increase weight if relationship exists
-#                     G[ent1][ent2]["weight"] += 0.1
-#                 else:
-#                     # Create new relationship with similarity score
-#                     emb1 = torch.tensor(G.nodes[ent1]["embedding"]).to(device)
-#                     emb2 = torch.tensor(G.nodes[ent2]["embedding"]).to(device)
-#                     sim = torch.cosine_similarity(emb1.unsqueeze(0), emb2.unsqueeze(0)).item()
-#                     if sim > 0.6:  # Slightly lower threshold for doc-internal relationships
-#                         G.add_edge(ent1, ent2, weight=sim)
-    
-#     return G, id_to_doc
 
 def build_knowledge_graph(docs: List[Document], embedding_model: OpenAIEmbedder) -> Tuple[nx.Graph, Dict]:
     """Optimized KG construction with sentence-aware relationships."""

@@ -30,8 +30,6 @@ from sentence_transformers import CrossEncoder
 # from langchain_openai.chat_models import ChatOpenAI
 
 
-openai_api_key = os.getenv("OPENAI_API_KEY")
-
 import os
 from dotenv import load_dotenv, find_dotenv
 
