@@ -1,10 +1,9 @@
-import json
 import multiprocessing as mp
 from typing import List
 
 import numpy as np
 
-from utils.metrics import calculate_answer_relevance, calculate_content_recall, calculate_faithfulness, calculate_precision_at_k, calculate_recall_at_k, evaluate_retrieval
+from utils.metrics import evaluate_retrieval
 if mp.get_start_method(allow_none=True) is None:
     mp.set_start_method("spawn")  # Only set if not already set
 
