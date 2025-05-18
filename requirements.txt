@@ -15,3 +15,6 @@ PyMuPDF
 docx2txt
 tqdm
 pypdf
+openai
+langchain-openai
+spacy

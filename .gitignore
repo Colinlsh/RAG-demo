@@ -1,2 +1,6 @@
-/venv
-/utils/__pycache__
+.DS_Store
+__pycache__/
+*.pyc
+.env
+data/json
+venv
