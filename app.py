@@ -40,32 +40,6 @@ from collections import defaultdict
 from langchain_core.documents import Document
 metrics = defaultdict(list)
 
-COMPARISON_TRIGGERS = [
-    'compare', 'versus', 'vs', 'difference', 'contrast',
-    'across', 'between', 'relative'
-]
-
-def is_comparison_request(query: str) -> bool:
-    return any(trigger in query.lower() for trigger in COMPARISON_TRIGGERS)
-
-VISUALIZATION_TRIGGERS = [
-    'plot', 'graph', 'chart', 'visualize', 'trend',
-    'engagement', 'metrics', 'analytics', 'statistics'
-]
-
-def is_visualization_request(query: str) -> bool:
-    return any(trigger in query.lower() for trigger in VISUALIZATION_TRIGGERS)
-
-if "plot_data" not in st.session_state:
-    st.session_state.plot_data = {}
-
-# Add this function to help maintain state
-def handle_post_selection():
-    """Reset response placeholder when post selection changes"""
-    st.session_state.pop('selected_post', None)
-    st.session_state.pop('selected_post_id', None)
-    st.session_state.pop('compare_post', None)
-
 # After generating a response in app.py:
 def log_metrics(query: str, retrieved_docs: List[Document], answer: str, context: str, reranker):
     # Mock relevant docs (replace with your ground truth)
@@ -149,7 +123,7 @@ with st.sidebar:
     st.markdown("---")
     st.header("📁 Document Management")
     uploaded_files = st.file_uploader(
-        "Upload documents (PDF/DOCX/TXT/JSON)", type=["pdf", "docx", "txt", "json"], accept_multiple_files=True
+        "Upload documents (PDF/DOCX/TXT)", type=["pdf", "docx", "txt"], accept_multiple_files=True
     )
     if uploaded_files:
         with st.spinner("Processing documents..."):
